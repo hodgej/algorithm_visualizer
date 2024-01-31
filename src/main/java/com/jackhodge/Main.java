@@ -1,6 +1,8 @@
 package com.jackhodge;
 
+import com.jackhodge.algorithms.BubbleSort;
 import com.jackhodge.algorithms.SelectionSort;
+import com.jackhodge.algorithms.StalinSort;
 import com.jackhodge.visualizer.AlgorithmViewer;
 
 import javax.swing.*;
@@ -14,8 +16,11 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(temp_size, temp_size);
 
-        int runs = 5;
+        int runs = 5000;
+
         while(runs != 0) {
+            int algorithm = (int) (Math.random()*3);
+
             ArrayList<Integer> dummyData = new ArrayList<>();
             int qty = 50;
             for (int x = 0; x < qty; x++) {
@@ -25,8 +30,17 @@ public class Main {
             ArrayList<Integer> emphasizes = new ArrayList<>();
             emphasizes.add(2);
 
-            AlgorithmViewer<Integer> myViewer = new AlgorithmViewer<>(dummyData, 1, emphasizes, temp_size);
-            SelectionSort<Integer> myAlgorithm = new SelectionSort<Integer>(dummyData);
+            Algo<Integer> myAlgorithm;
+            if(algorithm == 0){
+                myAlgorithm = new SelectionSort<>(dummyData);
+            } else if (algorithm == 1){
+                myAlgorithm = new StalinSort<Integer>(dummyData);
+            } else{
+                myAlgorithm = new BubbleSort<Integer>(dummyData);
+            }
+
+            AlgorithmViewer<Integer> myViewer = new AlgorithmViewer<>(myAlgorithm.getName(), dummyData, 1, emphasizes, temp_size);
+
             AlgorithmRunner<Integer> myRunner = new AlgorithmRunner<>(myAlgorithm);
 
 
@@ -38,10 +52,12 @@ public class Main {
             int debugTickCtr = 0;
             while (myAlgorithm.isRunning()) {
                 System.out.println("\nTICK: " + debugTickCtr);
-                myViewer.updateData(dummyData, 0, new ArrayList<>());
                 myRunner.run();
                 Thread.sleep(1);
+                ArrayList<Integer> emphasis = new ArrayList<>();
+                myViewer.updateData(dummyData, dummyData.size()-1, emphasis);
             }
+            Thread.sleep(1000);
             frame.remove(myViewer);
             runs--;
         }

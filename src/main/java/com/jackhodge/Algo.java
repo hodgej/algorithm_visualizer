@@ -12,6 +12,8 @@ public interface Algo<T extends Number> {
     public ArrayList<T> getData();
 
 
+    public String getName();
+
     public void setViewer(AlgorithmViewer viewer);
 
 }

@@ -17,11 +17,14 @@ public class AlgorithmViewer<T extends Number> extends JPanel {
     private int mainIndex;
     private ArrayList<Integer> emphasizedIndexes;
 
+    private String algorithmName;
 
-    public AlgorithmViewer(ArrayList<T> data, Integer mainIndex, ArrayList<Integer> emphasizedIndexes,
+    public AlgorithmViewer(String algorithmName, ArrayList<T> data, Integer mainIndex, ArrayList<Integer> emphasizedIndexes,
                            int windowSize
     ){
         updateData(data, mainIndex, emphasizedIndexes);
+
+        this.algorithmName = algorithmName;
 
         this.windowSize = windowSize;
 
@@ -44,6 +47,9 @@ public class AlgorithmViewer<T extends Number> extends JPanel {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+        Font myFont = new Font("Serif", Font.PLAIN, 20);
+        g2d.setFont(myFont);
+        g2d.drawString(algorithmName, windowSize/2, 30);
 
         int dataLength = this.data.size();
 
@@ -64,7 +70,9 @@ public class AlgorithmViewer<T extends Number> extends JPanel {
                 } else{
                     // else, color black.
                     //System.out.print("BLACK, ");
-                    g.setColor(Color.BLACK);
+                    int bVal = (int) ((data.get(index).doubleValue()/255) * 10);
+                    g.setColor(new Color(10,10, bVal));
+                   // g.setColor(Color.BLACK);
                 }
             }
 

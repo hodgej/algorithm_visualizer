@@ -68,4 +68,10 @@ public class SelectionSort<T extends Number> implements Algo<T> {
         running = false;
         return data;
     }
+
+
+    @Override
+    public String getName() {
+        return "Selection Sort";
+    }
 }
